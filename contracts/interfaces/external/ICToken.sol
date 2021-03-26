@@ -1,5 +1,5 @@
 /*
-    Copyright 2020 Set Labs Inc.
+    Copyright 2021 Set Labs Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -12,22 +12,28 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-    SPDX-License-Identifier: Apache License, Version 2.0
 */
+
 pragma solidity 0.6.10;
 
 
 /**
- * @title IOracle
+ * @title ICToken
  * @author Set Protocol
  *
- * Interface for operating with any external Oracle that returns uint256 or
- * an adapting contract that converts oracle output to uint256
+ * Interface for interacting with Compound cTokens
  */
-interface IOracle {
+interface ICToken {
+
     /**
-     * @return  Current price of asset represented in uint256, typically a preciseUnit where 10^18 = 1.
+     * Calculates the exchange rate from the underlying to the CToken
+     *
+     * @notice Accrue interest then return the up-to-date exchange rate
+     * @return Calculated exchange rate scaled by 1e18
      */
-    function read() external view returns (uint256);
+    function exchangeRateCurrent() external returns (uint256);
+
+    function exchangeRateStored() external view returns (uint256);
+
+    function decimals() external view returns(uint8);
 }
